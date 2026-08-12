@@ -103,8 +103,11 @@ function renderCardGrid(containerId, items, cardClass, labelClass) {
   const container = document.getElementById(containerId);
   if (!container || !items) return;
 
-  container.innerHTML = items.map(item => `
-    <div class="${cardClass}">
+  // Guarda la lista para poder navegar (◀ ▶) dentro del modal
+  container._items = items;
+
+  container.innerHTML = items.map((item, idx) => `
+    <div class="${cardClass}" data-index="${idx}">
       <video muted playsinline preload="metadata" controls>
         <source src="${videoUrl(item.file)}" type="video/mp4">
         Tu navegador no soporta videos.
@@ -128,18 +131,39 @@ function initVideoModal() {
   const videoModalContent = document.getElementById('video-modal-content');
   const videoModalPlayer  = document.getElementById('video-modal-player');
   const videoModalClose   = document.getElementById('video-modal-close');
+  const wordEl            = document.getElementById('video-modal-word');
+  const counterEl         = document.getElementById('video-modal-counter');
+  const prevBtn           = document.getElementById('video-modal-prev');
+  const nextBtn           = document.getElementById('video-modal-next');
+  const loopBtn           = document.getElementById('video-modal-loop');
+  const speedBtns         = document.querySelectorAll('.vm-tool-btn[data-speed]');
 
   if (!videoModal || !videoModalPlayer) return;
 
-  function abrirModalCon(video) {
-    const source = video.querySelector('source');
-    if (!source) return;
+  let currentContainer = null;
+  let currentIndex = -1;
+  let isLooping = false;
+  let currentSpeed = 1;
 
-    video.pause();
+  function openItem(container, index) {
+    const items = container && container._items;
+    if (!items || !items[index]) return;
 
-    videoModalPlayer.src = source.src;
+    currentContainer = container;
+    currentIndex = index;
+    const item = items[index];
+
+    videoModalPlayer.src = videoUrl(item.file);
     videoModalPlayer.muted = true;
     videoModalPlayer.defaultMuted = true;
+    videoModalPlayer.loop = isLooping;
+    videoModalPlayer.playbackRate = currentSpeed;
+
+    if (wordEl) wordEl.textContent = item.label;
+    if (counterEl) counterEl.textContent = `${index + 1} / ${items.length}`;
+    if (prevBtn) prevBtn.disabled = index <= 0;
+    if (nextBtn) nextBtn.disabled = index >= items.length - 1;
+
     videoModal.classList.add('active');
     videoModalPlayer.play().catch(() => {});
   }
@@ -147,10 +171,42 @@ function initVideoModal() {
   // Delegación de eventos: funciona incluso con tarjetas generadas dinámicamente
   document.addEventListener('play', (event) => {
     const video = event.target;
-    if (video.matches('.letter-card video, .vocab-card video, .num-card video')) {
-      abrirModalCon(video);
-    }
+    const card = video.closest('.letter-card, .vocab-card, .num-card');
+    if (!card) return;
+
+    video.pause(); // el video de la tarjeta no suena, solo abre el modal
+    const container = card.parentElement;
+    const index = parseInt(card.dataset.index, 10);
+    openItem(container, index);
   }, true);
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentContainer && currentIndex > 0) openItem(currentContainer, currentIndex - 1);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentContainer && currentIndex < currentContainer._items.length - 1) openItem(currentContainer, currentIndex + 1);
+    });
+  }
+
+  speedBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentSpeed = parseFloat(btn.dataset.speed);
+      videoModalPlayer.playbackRate = currentSpeed;
+      speedBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  if (loopBtn) {
+    loopBtn.addEventListener('click', () => {
+      isLooping = !isLooping;
+      videoModalPlayer.loop = isLooping;
+      loopBtn.classList.toggle('active', isLooping);
+    });
+  }
 
   function cerrarVideoModal() {
     videoModalPlayer.pause();
@@ -158,6 +214,8 @@ function initVideoModal() {
     videoModalPlayer.removeAttribute('src');
     videoModalPlayer.load();
     videoModal.classList.remove('active');
+    currentContainer = null;
+    currentIndex = -1;
   }
 
   if (videoModalClose) videoModalClose.addEventListener('click', cerrarVideoModal);
@@ -171,9 +229,10 @@ function initVideoModal() {
   }
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && videoModal.classList.contains('active')) {
-      cerrarVideoModal();
-    }
+    if (!videoModal.classList.contains('active')) return;
+    if (event.key === 'Escape') cerrarVideoModal();
+    if (event.key === 'ArrowRight' && nextBtn && !nextBtn.disabled) nextBtn.click();
+    if (event.key === 'ArrowLeft' && prevBtn && !prevBtn.disabled) prevBtn.click();
   });
 }
 

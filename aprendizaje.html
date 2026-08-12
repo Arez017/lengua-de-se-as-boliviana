@@ -99,8 +99,21 @@
 <!-- MODAL DE VIDEO (siempre muteado por defecto) -->
 <div class="video-modal" id="video-modal">
   <div class="video-modal-content" id="video-modal-content">
+    <div class="video-modal-label">
+      <span class="vm-word" id="video-modal-word">—</span>
+      <span class="vm-counter" id="video-modal-counter"></span>
+    </div>
     <button class="video-modal-close" id="video-modal-close" aria-label="Cerrar video">✕</button>
+    <button class="video-modal-nav video-modal-prev" id="video-modal-prev" aria-label="Seña anterior">◀</button>
     <video id="video-modal-player" controls muted playsinline></video>
+    <button class="video-modal-nav video-modal-next" id="video-modal-next" aria-label="Seña siguiente">▶</button>
+    <div class="video-modal-toolbar">
+      <button class="vm-tool-btn" data-speed="0.5">🐢 0.5x</button>
+      <button class="vm-tool-btn active" data-speed="1">▶️ 1x</button>
+      <button class="vm-tool-btn" data-speed="1.5">⚡ 1.5x</button>
+      <span class="vm-tool-divider"></span>
+      <button class="vm-tool-btn" id="video-modal-loop">🔁 Repetir</button>
+    </div>
   </div>
 </div>
 

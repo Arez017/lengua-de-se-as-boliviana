@@ -1120,6 +1120,92 @@ footer p {
     background: #f1f1f1;
 }
 
+/* Etiqueta con el nombre de la seña actual */
+.video-modal-label {
+    position: absolute;
+    top: -45px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+}
+.video-modal-label .vm-word {
+    font-weight: 900;
+    font-size: 1.3rem;
+}
+.video-modal-label .vm-counter {
+    font-size: .8rem;
+    opacity: .7;
+    background: rgba(255,255,255,.15);
+    padding: 2px 10px;
+    border-radius: 100px;
+}
+
+/* Flechas de navegación a los costados del video */
+.video-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    color: #fff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+}
+.video-modal-nav:hover:not(:disabled) { background: rgba(255,255,255,.3); transform: translateY(-50%) scale(1.08); }
+.video-modal-nav:disabled { opacity: .25; cursor: not-allowed; }
+.video-modal-prev { left: -8px; }
+.video-modal-next { right: -8px; }
+
+/* Barra de controles extra: velocidad + bucle */
+.video-modal-toolbar {
+    position: absolute;
+    bottom: -52px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.vm-tool-btn {
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,.25);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: .78rem;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+.vm-tool-btn:hover { background: rgba(255,255,255,.22); }
+.vm-tool-btn.active { background: var(--azul); border-color: var(--azul); }
+.vm-tool-divider { width: 1px; height: 18px; background: rgba(255,255,255,.25); }
+
+@media (max-width: 600px) {
+    .video-modal-label { position: static; margin-bottom: 10px; justify-content: center; }
+    .video-modal-nav { width: 38px; height: 38px; font-size: 1.1rem; }
+    .video-modal-prev { left: 2px; }
+    .video-modal-next { right: 2px; }
+    .video-modal-toolbar { bottom: -46px; }
+    .video-modal-close { top: auto; bottom: -100px; right: 50%; transform: translateX(50%); }
+}
+
 
 /* Animación de zoom */
 
@@ -1158,8 +1244,10 @@ footer p {
     }
 
     .video-modal-close {
-        top: -45px;
-        right: 0;
+        top: auto;
+        bottom: -100px;
+        right: 50%;
+        transform: translateX(50%);
     }
 
 }
@@ -1395,12 +1483,16 @@ footer p {
 }
 
 /* Tarjetas de video pequeñas dentro del juego de memoria */
-.match-item.video-item { padding: 6px; }
+.match-item.video-item {
+  padding: 0;
+  overflow: hidden;
+  min-height: 84px;
+}
 .match-item.video-item video {
   width: 100%;
-  aspect-ratio: 4/3;
+  height: 84px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 9px;
   display: block;
   pointer-events: none;
 }
