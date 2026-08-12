@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendizaje — LSB Aprende</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .alphabet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 18px;
+    }
+    .letter-card {
+      background: var(--blanco);
+      border: 2px solid var(--azul-light);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      user-select: none;
+      overflow: hidden;
+    }
+    .letter-card:hover { border-color: var(--azul); transform: translateY(-3px); }
+    .letter-card video { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; display: block; }
+    .letter-char {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--azul);
+      margin-top: 8px;
+    }
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 14px;
+    }
+    .num-card {
+      background: var(--blanco);
+      border: 2px solid var(--amarillo);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .num-card:hover { background: var(--amarillo-light); transform: translateY(-3px); }
+    .num-card video { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; display: block; }
+    .num-val {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--azul-dark);
+      margin-top: 6px;
+    }
+    .section-mini-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      color: var(--azul-dark);
+      font-size: 1.1rem;
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tip-box {
+      background: var(--verde-light);
+      border-left: 4px solid var(--verde);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+    .tip-box strong { color: var(--verde); }
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 18px;
+    }
+    .vocab-card {
+      background: var(--blanco);
+      border: 2px solid var(--azul-light);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .vocab-card video { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; display: block; }
+    .vocab-word { font-family: 'Nunito', sans-serif; font-weight: 800; color: var(--azul-dark); margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- MODAL DE VIDEO (siempre muteado por defecto) -->
+<div class="video-modal" id="video-modal">
+  <div class="video-modal-content" id="video-modal-content">
+    <button class="video-modal-close" id="video-modal-close" aria-label="Cerrar video">✕</button>
+    <video id="video-modal-player" controls muted playsinline></video>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🤟</div>
+      <span>LSB Aprende</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="que-es-lsb.html">¿Qué es LSB?</a></li>
+      <li><a href="aprendizaje.html" class="active">Aprendizaje</a></li>
+      <li><a href="juegos.html">Minijuegos</a></li>
+      <li><a href="recursos.html">Recursos</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <h1>📚 Área de Aprendizaje</h1>
+  <p>Aprende LSB a tu ritmo, desde lo más básico hasta frases completas. Todos los videos están silenciados por defecto — actívalos desde los controles si quieres escuchar el audio.</p>
+  <div class="breadcrumb"><a href="index.html">Inicio</a> › <span>Aprendizaje</span></div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- NIVELES -->
+    <div class="tabs" id="level-tabs">
+      <button class="tab-btn active" data-group="levels" data-tab="basico">🌱 Nivel Básico</button>
+      <button class="tab-btn" data-group="levels" data-tab="intermedio">🌿 Nivel Intermedio</button>
+      <button class="tab-btn" data-group="levels" data-tab="avanzado">🌳 Nivel Avanzado</button>
+    </div>
+
+    <!-- ============ NIVEL BÁSICO ============ -->
+    <div class="tab-content active" data-group="levels" data-tab="basico" id="basico">
+
+      <div class="tip-box">
+        <strong>💡 Consejo:</strong>
+        El nivel básico es tu punto de partida. Empieza aprendiendo el alfabeto dactilológico —
+        con él puedes deletrear cualquier palabra. ¡La práctica diaria de 10 minutos hace la diferencia!
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-group="basico" data-tab="alfabeto">🔤 Alfabeto</button>
+        <button class="tab-btn" data-group="basico" data-tab="numeros">🔢 Números</button>
+        <button class="tab-btn" data-group="basico" data-tab="saludos">👋 Saludos</button>
+      </div>
+
+      <!-- ALFABETO -->
+      <div class="tab-content active" data-group="basico" data-tab="alfabeto">
+        <div class="section-mini-title">🔤 Alfabeto Dactilológico — 27 letras</div>
+        <div class="alphabet-grid" id="alphabet-grid"><!-- Generado por JS --></div>
+        <p style="font-size:.85rem;color:var(--gris-medio);margin-top:16px;text-align:center">
+          💡 Pasa el cursor sobre cada letra para ver su nombre. ¡Practica deletrear tu nombre!
+        </p>
+      </div>
+
+      <!-- NÚMEROS -->
+      <div class="tab-content" data-group="basico" data-tab="numeros">
+        <div class="section-mini-title">🔢 Números del 0 al 10</div>
+        <div class="numbers-grid" id="numeros-grid"><!-- Generado por JS --></div>
+
+        <div class="section-mini-title" style="margin-top:32px">🔢 Números especiales</div>
+        <div class="vocab-grid" id="numeros-especiales-grid"><!-- Generado por JS --></div>
+      </div>
+
+      <!-- SALUDOS -->
+      <div class="tab-content" data-group="basico" data-tab="saludos">
+        <div class="section-mini-title">👋 Saludos y Expresiones Básicas</div>
+        <div class="vocab-grid" id="saludos-grid"><!-- Generado por JS --></div>
+        <div class="tip-box" style="margin-top:24px">
+          <strong>✋ Recuerda:</strong> En la LSB, la expresión facial es tan importante como la seña misma.
+          Una sonrisa al decir "Hola" o "Buenos días" comunica mucho más que solo la seña.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ NIVEL INTERMEDIO ============ -->
+    <div class="tab-content" data-group="levels" data-tab="intermedio" id="intermedio">
+
+      <div class="tip-box">
+        <strong>💡 Nivel Intermedio:</strong>
+        Ya conoces lo básico. Ahora amplía tu vocabulario con los temas que usas cada día:
+        días de la semana, colores y familia.
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-group="inter" data-tab="dias">📅 Días</button>
+        <button class="tab-btn" data-group="inter" data-tab="colores">🎨 Colores</button>
+        <button class="tab-btn" data-group="inter" data-tab="familia">👨‍👩‍👧 Familia</button>
+      </div>
+
+      <!-- DÍAS -->
+      <div class="tab-content active" data-group="inter" data-tab="dias">
+        <div class="section-mini-title">📅 Días de la Semana</div>
+        <div class="vocab-grid" id="dias-grid"><!-- Generado por JS --></div>
+      </div>
+
+      <!-- COLORES -->
+      <div class="tab-content" data-group="inter" data-tab="colores">
+        <div class="section-mini-title">🎨 Colores</div>
+        <div class="vocab-grid" id="colores-grid"><!-- Generado por JS --></div>
+      </div>
+
+      <!-- FAMILIA -->
+      <div class="tab-content" data-group="inter" data-tab="familia">
+        <div class="section-mini-title">👨‍👩‍👧 Familia</div>
+        <div class="vocab-grid" id="familia-grid"><!-- Generado por JS --></div>
+      </div>
+    </div>
+
+    <!-- ============ NIVEL AVANZADO ============ -->
+    <div class="tab-content" data-group="levels" data-tab="avanzado" id="avanzado">
+
+      <div class="tip-box">
+        <strong>💡 Nivel Avanzado:</strong>
+        Combina todo lo aprendido en frases completas y aprende a expresar emociones y estados de ánimo.
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-group="avz" data-tab="frases">💬 Frases</button>
+        <button class="tab-btn" data-group="avz" data-tab="expresiones">😊 Expresiones y Emociones</button>
+      </div>
+
+      <!-- FRASES -->
+      <div class="tab-content active" data-group="avz" data-tab="frases">
+        <div class="section-mini-title">💬 Frases Completas</div>
+        <div class="vocab-grid" id="frases-grid"><!-- Generado por JS --></div>
+      </div>
+
+      <!-- EXPRESIONES -->
+      <div class="tab-content" data-group="avz" data-tab="expresiones">
+        <div class="section-mini-title">😊 Expresiones y Emociones</div>
+        <div class="vocab-grid" id="expresiones-grid"><!-- Generado por JS --></div>
+      </div>
+    </div>
+
+    <!-- CTA JUEGOS -->
+    <div style="background:var(--azul-light);border-radius:var(--radius);padding:28px;text-align:center;margin-top:40px">
+      <h3 style="font-family:'Nunito',sans-serif;font-weight:800;color:var(--azul-dark);margin-bottom:8px">
+        🎮 ¿Listo para poner a prueba lo aprendido?
+      </h3>
+      <p style="color:var(--gris-texto);margin-bottom:18px;font-size:.9rem">
+        Refuerza todo este vocabulario con nuestros minijuegos, incluyendo los nuevos juegos dinámicos con video aleatorio.
+      </p>
+      <a href="juegos.html" class="btn btn-azul">🎮 Ir a Minijuegos</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🤟 LSB Aprende</div>
+  <p>Plataforma educativa de Lengua de Señas Boliviana · Hecho con ❤️ para la inclusión</p>
+  <p style="margin-top:8px">© 2025 LSB Aprende — Proyecto educativo sin fines de lucro</p>
+</footer>
+
+<script src="js/videos-data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
