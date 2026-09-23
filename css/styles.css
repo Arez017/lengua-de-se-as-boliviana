@@ -1,27 +1,30 @@
 /* ============================================
    LSB - Lengua de Señas Boliviana
-   Paleta: Azul profundo + Amarillo solar + Verde esperanza + Blanco limpio
+   Paleta SUPER LLAMATIVA: Rojo Bolivia + Amarillo solar intenso + Verde esperanza + Azul profundo
+   Alto contraste y vibrante para máxima visibilidad
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-  --azul:       #2563EB;
-  --azul-dark:  #1E40AF;
-  --azul-light: #DBEAFE;
-  --amarillo:   #F59E0B;
-  --amarillo-light: #FEF3C7;
-  --verde:      #10B981;
-  --verde-light:#D1FAE5;
-  --rojo:       #EF4444;
+  /* Colores principales - súper vibrantes */
+  --azul:       #1D4ED8;        /* Azul intenso */
+  --azul-dark:  #1E3A8A;        /* Azul profundo */
+  --azul-light: #DBEAFE;        /* Azul suave */
+  --amarillo:   #FACC15;        /* Amarillo solar BRILLANTE */
+  --amarillo-light: #FEF9C3;    /* Amarillo suave */
+  --verde:      #16A34A;        /* Verde fuerte Bolivia */
+  --verde-light:#DCFCE7;        /* Verde suave */
+  --rojo:       #DC2626;        /* Rojo Bolivia vibrante */
+  --rojo-dark:  #B91C1C;
   --blanco:     #FFFFFF;
   --gris-claro: #F8FAFC;
-  --gris-texto: #374151;
-  --gris-medio: #9CA3AF;
+  --gris-texto: #0F172A;        /* Texto más oscuro = mejor contraste */
+  --gris-medio: #64748B;
 
   --radius: 16px;
-  --shadow: 0 4px 20px rgba(37,99,235,0.12);
-  --shadow-hover: 0 8px 32px rgba(37,99,235,0.22);
+  --shadow: 0 4px 24px rgba(29, 78, 216, 0.18);
+  --shadow-hover: 0 10px 36px rgba(29, 78, 216, 0.28);
   --transition: all 0.25s ease;
 }
 
@@ -75,6 +78,14 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
+  overflow: hidden;
+}
+
+.nav-logo .logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .nav-links {
@@ -122,7 +133,7 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-dark) 60%, #1e3a8a 100%);
+  background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 40%, #7C3AED 100%);
   color: var(--blanco);
   text-align: center;
   padding: 80px 2rem 90px;
@@ -135,7 +146,7 @@ body {
   position: absolute;
   top: -60px; right: -60px;
   width: 300px; height: 300px;
-  background: rgba(245,158,11,0.15);
+  background: rgba(250, 204, 21, 0.22);
   border-radius: 50%;
 }
 
@@ -144,7 +155,7 @@ body {
   position: absolute;
   bottom: -80px; left: -40px;
   width: 250px; height: 250px;
-  background: rgba(16,185,129,0.12);
+  background: rgba(22, 163, 74, 0.18);
   border-radius: 50%;
 }
 
@@ -195,6 +206,15 @@ body {
   z-index: 1;
 }
 
+.hero-hands img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.25));
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -227,13 +247,14 @@ body {
 
 .btn-primary {
   background: var(--amarillo);
-  color: #1a1a1a;
-  box-shadow: 0 4px 14px rgba(245,158,11,0.4);
+  color: #0F172A;
+  box-shadow: 0 4px 18px rgba(250, 204, 21, 0.55);
+  font-weight: 700;
 }
 .btn-primary:hover {
-  background: #D97706;
+  background: #EAB308;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(245,158,11,0.45);
+  box-shadow: 0 8px 24px rgba(250, 204, 21, 0.6);
 }
 
 .btn-outline {
