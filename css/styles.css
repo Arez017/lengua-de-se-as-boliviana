@@ -7,28 +7,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Paleta basada en psicología del color + bandera de Bolivia
-     Azul = confianza + aprendizaje
-     Amarillo = energía + atención
-     Verde = crecimiento + inclusión
-  */
-  --azul:       #2563EB;        /* Azul confianza (más vivo) */
-  --azul-dark:  #1E40AF;        /* Azul profundo */
-  --azul-light: #DBEAFE;        /* Azul suave */
-  --amarillo:   #FBBF24;        /* Amarillo solar SUPER llamativo */
-  --amarillo-light: #FEF3C7;    /* Amarillo suave */
-  --verde:      #22C55E;        /* Verde esperanza intenso */
-  --verde-light:#DCFCE7;        /* Verde suave */
-  --rojo:       #EF4444;        /* Rojo Bolivia */
+  /* Paleta basada en psicología del color + bandera de Bolivia */
+  --azul:       #E11D48;        /* Fucsia intenso */
+  --azul-dark:  #BE123C;        /* Fucsia oscuro */
+  --azul-light: #FFE4E6;        /* Fucsia suave */
+  --amarillo:   #FBBF24;
+  --amarillo-light: #FEF3C7;
+  --verde:      #22C55E;
+  --verde-light:#DCFCE7;
+  --rojo:       #EF4444;
   --rojo-dark:  #DC2626;
   --blanco:     #FFFFFF;
   --gris-claro: #F8FAFC;
-  --gris-texto: #0F172A;        /* Máximo contraste */
+  --gris-texto: #0F172A;
   --gris-medio: #64748B;
 
   --radius: 16px;
-  --shadow: 0 4px 24px rgba(37, 99, 235, 0.18);
-  --shadow-hover: 0 10px 36px rgba(37, 99, 235, 0.28);
+  --shadow: 0 4px 24px rgba(225, 29, 72, 0.18);
+  --shadow-hover: 0 10px 36px rgba(225, 29, 72, 0.28);
   --transition: all 0.25s ease;
 }
 
@@ -138,7 +134,7 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-  background: linear-gradient(135deg, #1E40AF 0%, #2563EB 45%, #3B82F6 100%);
+  background: linear-gradient(135deg, #BE123C 0%, #E11D48 45%, #FB7185 100%);
   color: var(--blanco);
   text-align: center;
   padding: 80px 2rem 90px;
