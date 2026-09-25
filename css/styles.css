@@ -7,10 +7,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Paleta basada en psicología del color + bandera de Bolivia */
-  --azul:       #E11D48;        /* Fucsia intenso */
-  --azul-dark:  #BE123C;        /* Fucsia oscuro */
-  --azul-light: #FFE4E6;        /* Fucsia suave */
+  --azul:       #059669;        /* Verde inclusión */
+  --azul-dark:  #047857;        /* Verde profundo */
+  --azul-light: #D1FAE5;        /* Verde suave */
   --amarillo:   #FBBF24;
   --amarillo-light: #FEF3C7;
   --verde:      #22C55E;
@@ -23,8 +22,8 @@
   --gris-medio: #64748B;
 
   --radius: 16px;
-  --shadow: 0 4px 24px rgba(225, 29, 72, 0.18);
-  --shadow-hover: 0 10px 36px rgba(225, 29, 72, 0.28);
+  --shadow: 0 4px 24px rgba(5, 150, 105, 0.18);
+  --shadow-hover: 0 10px 36px rgba(5, 150, 105, 0.28);
   --transition: all 0.25s ease;
 }
 
@@ -134,7 +133,7 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-  background: linear-gradient(135deg, #BE123C 0%, #E11D48 45%, #FB7185 100%);
+  background: linear-gradient(135deg, #047857 0%, #059669 45%, #34D399 100%);
   color: var(--blanco);
   text-align: center;
   padding: 80px 2rem 90px;
