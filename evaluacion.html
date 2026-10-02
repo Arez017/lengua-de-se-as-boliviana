@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluación — LSB Aprende</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="img/logo.png">
+  <style>
+    /* ===== Evaluación específica ===== */
+    .eval-hero {
+      background: linear-gradient(135deg, #047857 0%, #059669 50%, #34D399 100%);
+      color: #fff;
+      padding: 48px 1.5rem 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .eval-hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: rgba(251, 191, 36, 0.2);
+      border-radius: 50%;
+    }
+    .eval-hero h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      margin-bottom: 10px;
+      position: relative; z-index: 1;
+    }
+    .eval-hero p {
+      opacity: 0.92;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+      position: relative; z-index: 1;
+    }
+
+    .eval-dashboard {
+      max-width: 960px;
+      margin: -28px auto 40px;
+      padding: 0 1.25rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eval-panel {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(5, 150, 105, 0.15);
+      padding: 28px 24px;
+      border: 1px solid #D1FAE5;
+    }
+
+    .eval-panel-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+    .eval-panel-header .icon-box {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, #059669, #34D399);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 14px rgba(5,150,105,0.3);
+    }
+    .eval-panel-header h2 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: #0F172A;
+      margin: 0;
+    }
+    .eval-panel-header p {
+      font-size: 0.88rem;
+      color: #64748B;
+      margin: 2px 0 0;
+    }
+
+    .eval-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .eval-card {
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .eval-card:hover {
+      border-color: #059669;
+      background: #ECFDF5;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(5,150,105,0.18);
+    }
+    .eval-card .ec-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .eval-card h3 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #0F172A;
+      margin-bottom: 6px;
+    }
+    .eval-card p {
+      font-size: 0.8rem;
+      color: #64748B;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .eval-card .ec-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: #D1FAE5;
+      color: #047857;
+    }
+    .eval-card.featured {
+      background: linear-gradient(145deg, #ECFDF5, #D1FAE5);
+      border-color: #059669;
+    }
+    .eval-card.featured .ec-badge {
+      background: #059669;
+      color: #fff;
+    }
+
+    /* Stats summary bar */
+    .stats-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #E2E8F0;
+    }
+    .stat-chip {
+      background: #F1F5F9;
+      border-radius: 12px;
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 120px;
+      text-align: center;
+    }
+    .stat-chip .sc-val {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      color: #059669;
+      display: block;
+    }
+    .stat-chip .sc-label {
+      font-size: 0.75rem;
+      color: #64748B;
+      font-weight: 600;
+    }
+
+    /* ===== Quiz UI ===== */
+    .quiz-wrap {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto 40px;
+      padding: 0 1.25rem;
+    }
+    .quiz-wrap.active { display: block; }
+
+    .quiz-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(5,150,105,0.15);
+      overflow: hidden;
+      border: 1px solid #D1FAE5;
+    }
+
+    .quiz-topbar {
+      background: linear-gradient(90deg, #047857, #059669);
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .quiz-topbar .qt-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .quiz-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .quiz-progress-bar {
+      width: 100px;
+      height: 8px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: #FBBF24;
+      border-radius: 100px;
+      transition: width 0.3s ease;
+    }
+
+    .quiz-body {
+      padding: 24px 20px;
+    }
+
+    .quiz-video-box {
+      background: #0F172A;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+      max-height: 280px;
+      margin: 0 auto 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quiz-video-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #0F172A;
+    }
+    .quiz-video-box .replay-btn {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #047857;
+    }
+
+    .quiz-question {
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #0F172A;
+      margin-bottom: 18px;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 480px) {
+      .quiz-options { grid-template-columns: 1fr; }
+    }
+
+    .quiz-opt {
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0F172A;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quiz-opt:hover:not(:disabled) {
+      border-color: #059669;
+      background: #ECFDF5;
+    }
+    .quiz-opt .opt-letter {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: #E2E8F0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .quiz-opt.correct {
+      border-color: #22C55E;
+      background: #DCFCE7;
+    }
+    .quiz-opt.correct .opt-letter { background: #22C55E; color: #fff; }
+    .quiz-opt.wrong {
+      border-color: #EF4444;
+      background: #FEE2E2;
+    }
+    .quiz-opt.wrong .opt-letter { background: #EF4444; color: #fff; }
+    .quiz-opt:disabled { cursor: default; opacity: 0.9; }
+
+    .quiz-feedback {
+      text-align: center;
+      margin-top: 16px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      min-height: 24px;
+    }
+    .quiz-feedback.ok { color: #16A34A; }
+    .quiz-feedback.bad { color: #DC2626; }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Results ===== */
+    .results-wrap {
+      display: none;
+      max-width: 560px;
+      margin: 0 auto 40px;
+      padding: 0 1.25rem;
+    }
+    .results-wrap.active { display: block; }
+
+    .results-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 48px rgba(5,150,105,0.18);
+      padding: 36px 28px;
+      text-align: center;
+      border: 2px solid #D1FAE5;
+    }
+    .results-card .trophy {
+      font-size: 4rem;
+      margin-bottom: 8px;
+      animation: bounce 0.8s ease;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-12px); }
+      60% { transform: translateY(-6px); }
+    }
+    .results-card h2 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: #059669;
+      margin-bottom: 6px;
+    }
+    .results-card .score-big {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 3.2rem;
+      color: #0F172A;
+      line-height: 1;
+      margin: 12px 0;
+    }
+    .results-card .score-big span {
+      font-size: 1.4rem;
+      color: #64748B;
+      font-weight: 700;
+    }
+    .results-msg {
+      font-size: 0.95rem;
+      color: #64748B;
+      margin-bottom: 20px;
+    }
+    .results-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .results-actions .btn { width: 100%; justify-content: center; }
+
+    /* ===== Stats panel ===== */
+    .stats-panel {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto 40px;
+      padding: 0 1.25rem;
+    }
+    .stats-panel.active { display: block; }
+
+    .stats-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(5,150,105,0.15);
+      padding: 28px 24px;
+      border: 1px solid #D1FAE5;
+    }
+    .stats-card h2 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .stats-box {
+      background: #F8FAFC;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid #E2E8F0;
+    }
+    .stats-box .sb-val {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      color: #059669;
+    }
+    .stats-box .sb-label {
+      font-size: 0.78rem;
+      color: #64748B;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .history-list {
+      list-style: none;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .history-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid #F1F5F9;
+      font-size: 0.88rem;
+      gap: 8px;
+    }
+    .history-list li:last-child { border-bottom: none; }
+    .history-list .hl-mode {
+      font-weight: 700;
+      color: #0F172A;
+    }
+    .history-list .hl-score {
+      font-weight: 800;
+      color: #059669;
+      white-space: nowrap;
+    }
+    .history-list .hl-date {
+      font-size: 0.75rem;
+      color: #94A3B8;
+    }
+
+    .empty-stats {
+      text-align: center;
+      padding: 30px 16px;
+      color: #64748B;
+    }
+    .empty-stats .emoji { font-size: 2.5rem; margin-bottom: 8px; }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #059669;
+      text-decoration: none;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon"><img src="img/logo.png" alt="LSB Logo"></div>
+      <span>LSB Aprende</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="que-es-lsb.html">¿Qué es LSB?</a></li>
+      <li><a href="aprendizaje.html">Aprendizaje</a></li>
+      <li><a href="juegos.html">Minijuegos</a></li>
+      <li><a href="evaluacion.html" class="active">Evaluación</a></li>
+      <li><a href="recursos.html">Recursos</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="eval-hero">
+  <h1>📋 Evaluación Final</h1>
+  <p>Demuestra todo lo que aprendiste sobre la Lengua de Señas Boliviana. Elige un modo y ¡a practicar!</p>
+</section>
+
+<!-- DASHBOARD -->
+<div class="eval-dashboard" id="dashboard">
+  <div class="eval-panel">
+    <div class="eval-panel-header">
+      <div class="icon-box">📝</div>
+      <div>
+        <h2>Elige tu evaluación</h2>
+        <p>Cada modo tiene 10 preguntas con videos reales de señas</p>
+      </div>
+    </div>
+
+    <div class="eval-cards">
+      <div class="eval-card" data-mode="basicas" onclick="startEval('basicas')">
+        <span class="ec-icon">👋</span>
+        <h3>Señas Básicas</h3>
+        <p>Alfabeto, números y saludos</p>
+        <span class="ec-badge">10 preguntas</span>
+      </div>
+      <div class="eval-card" data-mode="vocabulario" onclick="startEval('vocabulario')">
+        <span class="ec-icon">📚</span>
+        <h3>Vocabulario</h3>
+        <p>Días, colores y familia</p>
+        <span class="ec-badge">10 preguntas</span>
+      </div>
+      <div class="eval-card" data-mode="frases" onclick="startEval('frases')">
+        <span class="ec-icon">💬</span>
+        <h3>Frases y Más</h3>
+        <p>Frases completas y emociones</p>
+        <span class="ec-badge">10 preguntas</span>
+      </div>
+      <div class="eval-card featured" data-mode="completa" onclick="startEval('completa')">
+        <span class="ec-icon">🏆</span>
+        <h3>Evaluación Completa</h3>
+        <p>Mezcla de todos los niveles</p>
+        <span class="ec-badge">10 preguntas</span>
+      </div>
+    </div>
+
+    <div class="stats-summary" id="stats-summary">
+      <div class="stat-chip">
+        <span class="sc-val" id="sum-attempts">0</span>
+        <span class="sc-label">Intentos</span>
+      </div>
+      <div class="stat-chip">
+        <span class="sc-val" id="sum-best">—</span>
+        <span class="sc-label">Mejor puntaje</span>
+      </div>
+      <div class="stat-chip">
+        <span class="sc-val" id="sum-avg">—</span>
+        <span class="sc-label">Promedio</span>
+      </div>
+      <div class="stat-chip" style="cursor:pointer" onclick="showStats()">
+        <span class="sc-val">📊</span>
+        <span class="sc-label">Ver estadísticas</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap" id="quiz-wrap">
+  <a href="#" class="back-link" onclick="backToDashboard(); return false;">← Volver al inicio</a>
+  <div class="quiz-card">
+    <div class="quiz-topbar">
+      <span class="qt-title" id="quiz-mode-title">Evaluación</span>
+      <div class="quiz-progress">
+        <span id="quiz-counter">1 / 10</span>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="quiz-bar" style="width:10%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-video-box">
+        <video id="quiz-video" muted playsinline loop></video>
+        <button class="replay-btn" onclick="replayVideo()">🔁 Repetir</button>
+      </div>
+      <p class="quiz-question">Observa la seña y elige la palabra correcta</p>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <div class="quiz-actions">
+        <button class="btn btn-primary" id="next-btn" style="display:none" onclick="nextQuestion()">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-wrap" id="results-wrap">
+  <div class="results-card">
+    <div class="trophy" id="results-trophy">🏆</div>
+    <h2 id="results-title">¡Excelente!</h2>
+    <div class="score-big" id="results-score">9 <span>/ 10</span></div>
+    <p class="results-msg" id="results-msg">¡Casi un experto en LSB!</p>
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="showStats()">📊 Ver mis estadísticas</button>
+      <button class="btn btn-outline" onclick="restartSameMode()">🔄 Intentar de nuevo</button>
+      <button class="btn btn-outline" onclick="backToDashboard()">🏠 Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS PANEL -->
+<div class="stats-panel" id="stats-panel">
+  <a href="#" class="back-link" onclick="backToDashboard(); return false;">← Volver al inicio</a>
+  <div class="stats-card">
+    <h2>📊 Mis estadísticas</h2>
+    <div class="stats-grid" id="stats-grid">
+      <!-- filled by JS -->
+    </div>
+    <h3 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:10px">Historial reciente</h3>
+    <ul class="history-list" id="history-list">
+      <!-- filled by JS -->
+    </ul>
+    <div style="margin-top:20px;text-align:center">
+      <button class="btn btn-outline" onclick="clearStats()" style="font-size:0.85rem">🗑️ Borrar historial</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><img src="img/logo.png" alt="LSB" style="width:28px;height:28px;vertical-align:middle;margin-right:6px;"> LSB Aprende</div>
+  <p>Plataforma educativa de Lengua de Señas Boliviana · Hecho con ❤️ para la inclusión</p>
+  <p style="margin-top:8px">© 2025 LSB Aprende — Proyecto educativo sin fines de lucro</p>
+</footer>
+
+<script src="js/videos-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  const STORAGE_KEY = 'lsb_eval_stats';
+  const TOTAL_Q = 10;
+
+  const MODE_LABELS = {
+    basicas: 'Señas Básicas',
+    vocabulario: 'Vocabulario',
+    frases: 'Frases y Más',
+    completa: 'Evaluación Completa'
+  };
+
+  const MODE_POOLS = {
+    basicas: ['alfabeto', 'numeros', 'saludos'],
+    vocabulario: ['dias', 'colores', 'familia'],
+    frases: ['frases', 'expresiones'],
+    completa: ['alfabeto', 'numeros', 'saludos', 'dias', 'colores', 'familia', 'frases', 'expresiones']
+  };
+
+  let currentMode = null;
+  let questions = [];
+  let qIndex = 0;
+  let score = 0;
+  let answered = false;
+
+  function loadStats() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : { attempts: [], bestByMode: {} };
+    } catch {
+      return { attempts: [], bestByMode: {} };
+    }
+  }
+
+  function saveStats(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function updateSummary() {
+    const data = loadStats();
+    const attempts = data.attempts || [];
+    document.getElementById('sum-attempts').textContent = attempts.length;
+    if (attempts.length === 0) {
+      document.getElementById('sum-best').textContent = '—';
+      document.getElementById('sum-avg').textContent = '—';
+      return;
+    }
+    const scores = attempts.map(a => a.score);
+    const best = Math.max(...scores);
+    const avg = (scores.reduce((s, v) => s + v, 0) / scores.length).toFixed(1);
+    document.getElementById('sum-best').textContent = best + '/' + TOTAL_Q;
+    document.getElementById('sum-avg').textContent = avg;
+  }
+
+  function getPool(mode) {
+    const keys = MODE_POOLS[mode] || MODE_POOLS.completa;
+    let pool = [];
+    keys.forEach(k => {
+      if (LSB_DATA[k]) pool = pool.concat(LSB_DATA[k].map(item => ({ ...item, category: k })));
+    });
+    return pool;
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function pickQuestions(mode) {
+    const pool = getPool(mode);
+    const shuffled = shuffle(pool);
+    const selected = shuffled.slice(0, Math.min(TOTAL_Q, shuffled.length));
+    return selected.map(item => {
+      // distractors from same category preferably
+      const sameCat = pool.filter(p => p.label !== item.label && p.category === item.category);
+      let distractors = shuffle(sameCat).slice(0, 3).map(d => d.label);
+      if (distractors.length < 3) {
+        const others = pool.filter(p => p.label !== item.label && !distractors.includes(p.label));
+        distractors = distractors.concat(shuffle(others).slice(0, 3 - distractors.length).map(d => d.label));
+      }
+      const options = shuffle([item.label, ...distractors.slice(0, 3)]);
+      return {
+        label: item.label,
+        file: item.file,
+        options
+      };
+    });
+  }
+
+  window.startEval = function (mode) {
+    currentMode = mode;
+    questions = pickQuestions(mode);
+    qIndex = 0;
+    score = 0;
+    answered = false;
+
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('results-wrap').classList.remove('active');
+    document.getElementById('stats-panel').classList.remove('active');
+    document.getElementById('quiz-wrap').classList.add('active');
+
+    document.getElementById('quiz-mode-title').textContent = MODE_LABELS[mode] || 'Evaluación';
+    showQuestion();
+  };
+
+  function showQuestion() {
+    answered = false;
+    const q = questions[qIndex];
+    document.getElementById('quiz-counter').textContent = (qIndex + 1) + ' / ' + questions.length;
+    document.getElementById('quiz-bar').style.width = ((qIndex + 1) / questions.length * 100) + '%';
+    document.getElementById('quiz-feedback').textContent = '';
+    document.getElementById('quiz-feedback').className = 'quiz-feedback';
+    document.getElementById('next-btn').style.display = 'none';
+
+    const video = document.getElementById('quiz-video');
+    video.src = 'videos/' + q.file;
+    video.load();
+    video.play().catch(() => {});
+
+    const letters = ['A', 'B', 'C', 'D'];
+    const optsEl = document.getElementById('quiz-options');
+    optsEl.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt';
+      btn.innerHTML = '<span class="opt-letter">' + letters[i] + '</span><span>' + opt + '</span>';
+      btn.onclick = () => selectAnswer(opt, btn);
+      optsEl.appendChild(btn);
+    });
+  }
+
+  window.replayVideo = function () {
+    const video = document.getElementById('quiz-video');
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  };
+
+  function selectAnswer(chosen, btnEl) {
+    if (answered) return;
+    answered = true;
+    const q = questions[qIndex];
+    const correct = chosen === q.label;
+    if (correct) score++;
+
+    document.querySelectorAll('.quiz-opt').forEach(b => {
+      b.disabled = true;
+      const text = b.querySelector('span:last-child').textContent;
+      if (text === q.label) b.classList.add('correct');
+      else if (b === btnEl && !correct) b.classList.add('wrong');
+    });
+
+    const fb = document.getElementById('quiz-feedback');
+    if (correct) {
+      fb.textContent = '✓ ¡Correcto!';
+      fb.className = 'quiz-feedback ok';
+    } else {
+      fb.textContent = '✗ Incorrecto. La respuesta era: ' + q.label;
+      fb.className = 'quiz-feedback bad';
+    }
+
+    document.getElementById('next-btn').style.display = 'inline-flex';
+    if (qIndex >= questions.length - 1) {
+      document.getElementById('next-btn').textContent = 'Ver resultados →';
+    } else {
+      document.getElementById('next-btn').textContent = 'Siguiente →';
+    }
+  }
+
+  window.nextQuestion = function () {
+    if (qIndex >= questions.length - 1) {
+      finishEval();
+      return;
+    }
+    qIndex++;
+    showQuestion();
+  };
+
+  function finishEval() {
+    // save
+    const data = loadStats();
+    const entry = {
+      mode: currentMode,
+      score: score,
+      total: questions.length,
+      date: new Date().toISOString()
+    };
+    data.attempts.unshift(entry);
+    if (data.attempts.length > 50) data.attempts = data.attempts.slice(0, 50);
+    if (!data.bestByMode[currentMode] || score > data.bestByMode[currentMode]) {
+      data.bestByMode[currentMode] = score;
+    }
+    saveStats(data);
+    updateSummary();
+
+    // show results
+    document.getElementById('quiz-wrap').classList.remove('active');
+    document.getElementById('results-wrap').classList.add('active');
+
+    const pct = score / questions.length;
+    let title, trophy, msg;
+    if (pct >= 0.9) {
+      title = '¡Excelente!';
+      trophy = '🏆';
+      msg = '¡Casi un experto en LSB! Sigue así.';
+    } else if (pct >= 0.7) {
+      title = '¡Muy bien!';
+      trophy = '⭐';
+      msg = 'Buen dominio. Practica un poco más para llegar al 10.';
+    } else if (pct >= 0.5) {
+      title = '¡Buen intento!';
+      trophy = '👍';
+      msg = 'Vas por buen camino. Revisa el área de aprendizaje y vuelve a intentarlo.';
+    } else {
+      title = 'Sigue practicando';
+      trophy = '💪';
+      msg = 'No te desanimes. Cada intento te acerca más al dominio de la LSB.';
+    }
+
+    document.getElementById('results-trophy').textContent = trophy;
+    document.getElementById('results-title').textContent = title;
+    document.getElementById('results-score').innerHTML = score + ' <span>/ ' + questions.length + '</span>';
+    document.getElementById('results-msg').textContent = msg;
+  }
+
+  window.restartSameMode = function () {
+    if (currentMode) startEval(currentMode);
+  };
+
+  window.backToDashboard = function () {
+    document.getElementById('quiz-wrap').classList.remove('active');
+    document.getElementById('results-wrap').classList.remove('active');
+    document.getElementById('stats-panel').classList.remove('active');
+    document.getElementById('dashboard').style.display = 'block';
+    updateSummary();
+  };
+
+  window.showStats = function () {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('quiz-wrap').classList.remove('active');
+    document.getElementById('results-wrap').classList.remove('active');
+    document.getElementById('stats-panel').classList.add('active');
+
+    const data = loadStats();
+    const attempts = data.attempts || [];
+    const grid = document.getElementById('stats-grid');
+    const list = document.getElementById('history-list');
+
+    if (attempts.length === 0) {
+      grid.innerHTML = '';
+      list.innerHTML = '<div class="empty-stats"><div class="emoji">📭</div><p>Aún no has completado ninguna evaluación.<br>¡Empieza ahora y verás tus estadísticas aquí!</p></div>';
+      return;
+    }
+
+    const scores = attempts.map(a => a.score);
+    const best = Math.max(...scores);
+    const avg = (scores.reduce((s, v) => s + v, 0) / scores.length).toFixed(1);
+    const last = attempts[0];
+
+    grid.innerHTML = `
+      <div class="stats-box"><div class="sb-val">${attempts.length}</div><div class="sb-label">Intentos totales</div></div>
+      <div class="stats-box"><div class="sb-val">${best}/${TOTAL_Q}</div><div class="sb-label">Mejor puntaje</div></div>
+      <div class="stats-box"><div class="sb-val">${avg}</div><div class="sb-label">Promedio</div></div>
+      <div class="stats-box"><div class="sb-val">${last.score}/${last.total}</div><div class="sb-label">Último intento</div></div>
+    `;
+
+    // best by mode
+    const modes = Object.keys(MODE_LABELS);
+    let modeHtml = '';
+    modes.forEach(m => {
+      const b = data.bestByMode[m];
+      if (b !== undefined) {
+        modeHtml += `<div class="stats-box"><div class="sb-val">${b}/${TOTAL_Q}</div><div class="sb-label">Mejor · ${MODE_LABELS[m]}</div></div>`;
+      }
+    });
+    if (modeHtml) grid.innerHTML += modeHtml;
+
+    list.innerHTML = attempts.slice(0, 15).map(a => {
+      const d = new Date(a.date);
+      const dateStr = d.toLocaleDateString('es-BO', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return `<li>
+        <span class="hl-mode">${MODE_LABELS[a.mode] || a.mode}</span>
+        <span class="hl-score">${a.score}/${a.total}</span>
+        <span class="hl-date">${dateStr}</span>
+      </li>`;
+    }).join('');
+  };
+
+  window.clearStats = function () {
+    if (confirm('¿Borrar todo el historial de evaluaciones? Esta acción no se puede deshacer.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      updateSummary();
+      showStats();
+    }
+  };
+
+  // init
+  updateSummary();
+})();
+</script>
+</body>
+</html>
